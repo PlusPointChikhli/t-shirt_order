@@ -26,7 +26,8 @@
     .main-header{text-align:center;margin:16px 0 24px}
     .main-header img{height:50px;margin-bottom:8px}
     .main-header h1{font-size:clamp(24px,3.2vw,36px);margin:0;color:#212529}
-    .shop-info{font-size:14px;color:var(--muted);margin-top:4px}
+    .shop-info-main{font-size:clamp(16px, 2.5vw, 22px); color:#212529; font-weight:600; margin-top:4px}
+    .shop-info-sub{font-size:14px;color:var(--muted)}
     
     .grid{display:grid;grid-template-columns:1fr;gap:20px}
     @media(min-width:720px){.grid{grid-template-columns:2fr 1.4fr}}
@@ -45,10 +46,8 @@
     .swatch.active{outline:2px solid var(--brand);box-shadow:var(--ring);}
 
     /* Preview + forms */
-    .preview{display:flex;gap:16px;align-items:flex-start}
-    .preview-img{flex:0 0 160px;border-radius:8px;border:1px solid var(--border);overflow:hidden;background:#fff}
-    .preview-img img{width:100%;height:200px;object-fit:cover;display:block}
-    .controls{flex:1}
+    .preview-img{width:100%;border-radius:8px;border:1px solid var(--border);overflow:hidden;background:#fff}
+    .preview-img img{width:100%;height:220px;object-fit:cover;display:block}
 
     .tabs{display:flex;gap:8px;margin:12px 0}
     .tab{flex:1;text-align:center;padding:10px;border-radius:8px;border:1px solid var(--border);background:#fff;cursor:pointer;font-weight:500;color:var(--muted);transition:background .2s, border-color .2s}
@@ -58,7 +57,9 @@
     input[type="text"], select, input[type="number"]{
       width:100%;padding:10px;border-radius:8px;border:1px solid var(--border);background:#fff;color:#333;font-size:16px;
     }
-    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+    .form-grid{display:grid;grid-template-columns:1fr;gap:15px}
+    @media(min-width:480px){.form-grid{grid-template-columns:1fr 1fr}}
+    
     .btn{appearance:none;border:0;padding:12px 18px;border-radius:8px;cursor:pointer;font-weight:600;font-size:16px;transition:background .2s, color .2s}
     .btn-primary{background:var(--brand);color:#fff}
     .btn-outline{background:transparent;color:var(--brand);border:1px solid var(--brand)}
@@ -84,11 +85,8 @@
   <div class="container">
     <header class="main-header">
       <img src="logo.png" alt="PLUSPOINT EXCLUSIVE Logo" onerror="this.style.display='none'">
-      <h1>Chinese Collar T‑Shirt Order</h1>
-      <div class="shop-info">
-        <p>PLUSPOINT EXCLUSIVE Men'swear</p>
-        <p>Contact: 8866244409 | Address: Garden Road, Chikhli, Navsari, Gujarat</p>
-      </div>
+      <h1>PLUS POINT</h1>
+      <div class="shop-info-sub">EXCLUSIVE Men'swear</div>
     </header>
     
     <div class="grid">
@@ -105,51 +103,45 @@
           <h2>Preview & Add</h2>
           <span id="currentColour" class="badge">No colour selected</span>
         </div>
-        <div class="preview">
-          <div class="preview-img" aria-live="polite">
-            <img id="previewImg" alt="Preview" src="" />
-          </div>
-          <div class="controls">
-            <div class="tabs">
-              <button class="tab active" data-tab="person">Person‑wise</button>
-              <button class="tab" data-tab="size">Size + Qty</button>
-            </div>
-
-            <form id="personForm" data-tabpanel="person">
-              <div class="form-row">
-                <div>
-                  <label for="pName">Person Name</label>
-                  <input id="pName" type="text" placeholder="e.g. Vipin" autocomplete="name" />
-                </div>
-                <div>
-                  <label for="pSize">Size</label>
-                  <select id="pSize"></select>
-                </div>
-              </div>
-              <label for="pQty">Qty</label>
-              <input id="pQty" type="number" min="1" value="1" />
-              <div style="margin-top:16px;">
-                <button type="submit" class="btn btn-primary" style="width:100%">Add Person</button>
-              </div>
-            </form>
-
-            <form id="sizeForm" class="hidden" data-tabpanel="size" style="display:none">
-              <div class="form-row">
-                <div>
-                  <label for="sSize">Size</label>
-                  <select id="sSize"></select>
-                </div>
-                <div>
-                  <label for="sQty">Qty</label>
-                  <input id="sQty" type="number" min="1" value="1" />
-                </div>
-              </div>
-              <div style="margin-top:16px;">
-                <button type="submit" class="btn btn-primary" style="width:100%">Add Size Qty</button>
-              </div>
-            </form>
-          </div>
+        <div class="preview-img" aria-live="polite">
+          <img id="previewImg" alt="Preview" src="" />
         </div>
+        <div class="tabs">
+          <button class="tab active" data-tab="person">Person‑wise</button>
+          <button class="tab" data-tab="size">Size + Qty</button>
+        </div>
+
+        <form id="personForm" data-tabpanel="person">
+          <div class="form-grid">
+            <div>
+              <label for="pName">Person Name</label>
+              <input id="pName" type="text" placeholder="e.g. Vipin" autocomplete="name" />
+            </div>
+            <div>
+              <label for="pSize">Size</label>
+              <select id="pSize"></select>
+            </div>
+          </div>
+          <div style="margin-top:16px;">
+            <button type="submit" class="btn btn-primary" style="width:100%">Add Person</button>
+          </div>
+        </form>
+
+        <form id="sizeForm" class="hidden" data-tabpanel="size" style="display:none">
+          <div class="form-grid">
+            <div>
+              <label for="sSize">Size</label>
+              <select id="sSize"></select>
+            </div>
+            <div>
+              <label for="sQty">Qty</label>
+              <input id="sQty" type="number" min="1" value="1" />
+            </div>
+          </div>
+          <div style="margin-top:16px;">
+            <button type="submit" class="btn btn-primary" style="width:100%">Add Size Qty</button>
+          </div>
+        </form>
 
         <div class="list" id="lineItems"></div>
       </section>
@@ -173,6 +165,9 @@
     /* ===================== CONFIG ===================== */
     // 1) Your shop WhatsApp number (digits only). Example: "918866244409". Keep "" to open contact picker.
     const WHATSAPP_NUMBER = "919722609460";
+    const SHOP_NAME = "PLUSPOINT EXCLUSIVE Men'swear";
+    const SHOP_CONTACT = "8866244409";
+    const SHOP_ADDRESS = "Garden Road, Chikhli, Navsari, Gujarat";
 
     // 2) Available sizes
     const SIZES = ["S", "M", "L", "XL", "XXL", "3XL"];
@@ -207,7 +202,6 @@
     const currentColourBadge = $('#currentColour');
     const pName = $('#pName');
     const pSize = $('#pSize');
-    const pQty  = $('#pQty');
     const sSize = $('#sSize');
     const sQty  = $('#sQty');
     const lineItems = $('#lineItems');
@@ -261,10 +255,10 @@
       e.preventDefault();
       if(!selectedColour){alert('Please select a colour first.');return}
       const name = (pName.value||'').trim();
-      const size = pSize.value; const qty = Math.max(1, +pQty.value||1);
+      const size = pSize.value; const qty = 1; // Qty is always 1 for person-wise order
       if(!name){alert('Enter person name'); return}
       addLine({type:'person', name, size, qty});
-      pName.value=''; pQty.value=1; pName.focus();
+      pName.value=''; pName.focus();
     });
 
     $('#sizeForm').addEventListener('submit', e=>{
@@ -343,7 +337,7 @@
     
     function buildWhatsAppText(){
       const header = `*Chinese Collar T-shirt – Order*`;
-      const shopInfo = `\n\n*${document.querySelector('.shop-info p:first-child').textContent}*\n${document.querySelector('.shop-info p:last-child').textContent}`;
+      const shopInfo = `\n\n*${SHOP_NAME}*\nContact: ${SHOP_CONTACT}\nAddress: ${SHOP_ADDRESS}`;
       const {text} = buildSummaryText();
       return `${header}\n${shopInfo}\n\n${text}`.trim();
     }
