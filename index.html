@@ -1,0 +1,367 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chinese Collar T‑Shirt – Order Form</title>
+  <style>
+    :root{
+      --bg:#fff;
+      --card:#f0f2f5;
+      --muted:#555;
+      --brand:#007bff;
+      --brand-2:#6c757d;
+      --danger:#dc3545;
+      --ring: 0 0 0 3px rgba(0, 123, 255, .25);
+      --border:#e0e0e0;
+      --shadow: 0 4px 12px rgba(0,0,0,.08);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif;
+      background:var(--bg); color:#333;
+    }
+    .container{max-width:1100px;margin:0 auto;padding:16px}
+    h1{font-size:clamp(24px,3.2vw,36px);text-align:center;margin:16px 0 24px;color:#212529}
+    .grid{display:grid;grid-template-columns:1fr;gap:20px}
+    @media(min-width:720px){.grid{grid-template-columns:2fr 1.4fr}}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;box-shadow:var(--shadow)}
+    .section-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+    .section-title h2{font-size:20px;margin:0;color:#212529}
+    .muted{opacity:.8}
+    
+    /* Colour gallery */
+    .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    @media(min-width:600px){.gallery{grid-template-columns:repeat(4,1fr)}}
+    .swatch{position:relative;border:1px solid var(--border);border-radius:8px;overflow:hidden;cursor:pointer;background:#fff;transition:transform .2s, box-shadow .2s}
+    .swatch:hover{transform:translateY(-2px);box-shadow:0 6px 15px rgba(0,0,0,.1);}
+    .swatch img{width:100%;height:100px;object-fit:cover;display:block}
+    .swatch .name{position:absolute;left:0;right:0;bottom:0;background:rgba(255,255,255,.8);backdrop-filter:blur(2px);padding:6px 8px;font-size:13px;text-align:center;font-weight:500;color:#333;border-top:1px solid rgba(0,0,0,.1);}
+    .swatch.active{outline:2px solid var(--brand);box-shadow:var(--ring);}
+
+    /* Preview + forms */
+    .preview{display:flex;gap:16px;align-items:flex-start}
+    .preview-img{flex:0 0 160px;border-radius:8px;border:1px solid var(--border);overflow:hidden;background:#fff}
+    .preview-img img{width:100%;height:200px;object-fit:cover;display:block}
+    .controls{flex:1}
+
+    .tabs{display:flex;gap:8px;margin:12px 0}
+    .tab{flex:1;text-align:center;padding:10px;border-radius:8px;border:1px solid var(--border);background:#fff;cursor:pointer;font-weight:500;color:var(--muted);transition:background .2s, border-color .2s}
+    .tab.active{background:var(--brand);color:#fff;border-color:var(--brand);box-shadow:var(--ring)}
+
+    label{display:block;font-size:14px;margin:12px 0 6px;color:#212529}
+    input[type="text"], select, input[type="number"]{
+      width:100%;padding:10px;border-radius:8px;border:1px solid var(--border);background:#fff;color:#333;font-size:16px;
+    }
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+    .btn{appearance:none;border:0;padding:12px 18px;border-radius:8px;cursor:pointer;font-weight:600;font-size:16px;transition:background .2s, color .2s}
+    .btn-primary{background:var(--brand);color:#fff}
+    .btn-outline{background:transparent;color:var(--brand);border:1px solid var(--brand)}
+    .btn-danger{background:var(--danger);color:#fff}
+
+    .list{margin-top:16px;border-top:1px dashed var(--border);padding-top:12px}
+    .item{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px dashed var(--border);font-size:15px}
+    .badge{font-size:13px;padding:4px 10px;border-radius:999px;background:#e9ecef;color:#495057;margin-left:8px;font-weight:500}
+    .pill{background:#007bff;color:#fff;padding:4px 10px;border-radius:999px;margin-left:8px;font-weight:500}
+
+    .summary{font-size:15px;line-height:1.6;white-space:pre-wrap;font-family:monospace}
+    .footer-actions{display:flex;flex-direction:column;gap:12px;margin-top:20px}
+    @media(min-width:560px){.footer-actions{flex-direction:row;justify-content:flex-end}}
+
+    .hint{font-size:13px;opacity:.8}
+    .totals{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
+    .totals .chip{border:1px solid var(--border);border-radius:999px;padding:8px 12px;background:#fff;font-weight:500;font-size:14px;color:#333}
+    .totals strong{color:#000}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Chinese Collar T‑Shirt Order</h1>
+    <div class="grid">
+      <section class="card">
+        <div class="section-title">
+          <h2>Colour Chart</h2>
+          <span class="hint">Tap to preview & add</span>
+        </div>
+        <div id="gallery" class="gallery" aria-label="Colour gallery"></div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Preview & Add</h2>
+          <span id="currentColour" class="badge">No colour selected</span>
+        </div>
+        <div class="preview">
+          <div class="preview-img" aria-live="polite">
+            <img id="previewImg" alt="Preview" src="" />
+          </div>
+          <div class="controls">
+            <div class="tabs">
+              <button class="tab active" data-tab="person">Person‑wise</button>
+              <button class="tab" data-tab="size">Size + Qty</button>
+            </div>
+
+            <form id="personForm" data-tabpanel="person">
+              <div class="row">
+                <div>
+                  <label>Person Name</label>
+                  <input id="pName" type="text" placeholder="e.g. Vipin" autocomplete="name" />
+                </div>
+                <div>
+                  <label>Size</label>
+                  <select id="pSize"></select>
+                </div>
+              </div>
+              <div>
+                <label>Qty</label>
+                <input id="pQty" type="number" min="1" value="1" />
+              </div>
+              <div style="display:flex;align-items:flex-end;gap:8px;margin-top:16px;">
+                <button type="submit" class="btn btn-primary" style="width:100%">Add Person</button>
+              </div>
+            </form>
+
+            <form id="sizeForm" class="hidden" data-tabpanel="size" style="display:none">
+              <div class="row">
+                <div>
+                  <label>Size</label>
+                  <select id="sSize"></select>
+                </div>
+                <div>
+                  <label>Qty</label>
+                  <input id="sQty" type="number" min="1" value="1" />
+                </div>
+              </div>
+              <div style="margin-top:16px;">
+                <button type="submit" class="btn btn-primary">Add Size Qty</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="list" id="lineItems"></div>
+      </section>
+    </div>
+
+    <section class="card" style="margin-top:20px">
+      <div class="section-title">
+        <h2>Order Summary</h2>
+        <span class="hint">Auto‑grouped by colour & size</span>
+      </div>
+      <div id="summary" class="summary"></div>
+      <div class="totals" id="totals"></div>
+      <div class="footer-actions">
+        <button id="copyBtn" class="btn btn-outline">Copy Order Text</button>
+        <button id="waBtn" class="btn btn-primary">Send on WhatsApp</button>
+        <button id="clearBtn" class="btn btn-danger">Clear All</button>
+      </div>
+      <p class="hint" style="margin-top:10px;">Tip: WhatsApp number and available colours can be changed in the code.</p>
+    </section>
+  </div>
+  <script>
+    /* ===================== CONFIG ===================== */
+    // 1) Your shop WhatsApp number (digits only). Example: "918866244409". Keep "" to open contact picker.
+    const WHATSAPP_NUMBER = "919722609460";
+
+    // 2) Available sizes
+    const SIZES = ["S", "M", "L", "XL", "XXL", "3XL"];
+
+    // 3) Colour catalogue (name -> image path). Replace image paths with your own white‑background photos.
+    const COLOURS = [
+      {name:"Airforce",      img:"images/Airforce.jpg"},
+      {name:"Black",         img:"images/Black.jpg"},
+      {name:"Brown",         img:"images/Brown.jpg"},
+      {name:"Dark Grey",     img:"images/Dark Grey.jpg"},
+      {name:"Dark Red",      img:"images/Dark Red.jpg"},
+      {name:"Dusty Purple",  img:"images/Dusty Purple.jpg"},
+      {name:"Lavender",      img:"images/Lavender.jpg"},
+      {name:"Light Green",   img:"images/Light Green.jpg"},
+      {name:"Light Grey",    img:"images/light-grey.jpg"},
+      {name:"Navy",          img:"images/Navy.jpg"},
+      {name:"Peach",         img:"images/Peach.jpg"},
+      {name:"Rust",          img:"images/Rust.jpg"},
+      {name:"Sky Blue",      img:"images/Sky Blue.jpg"},
+      {name:"Space Blue",    img:"images/Space Blue.jpg"},
+      {name:"White",         img:"images/White.jpg"},
+      {name:"Lemon Yellow",  img:"images/Yellow.jpg"}
+    ];
+
+    /* ================ STATE ================ */
+    let selectedColour = null;
+    let lines = [];
+
+    const $ = sel => document.querySelector(sel);
+    const gallery = $('#gallery');
+    const previewImg = $('#previewImg');
+    const currentColourBadge = $('#currentColour');
+    const pName = $('#pName');
+    const pSize = $('#pSize');
+    const pQty  = $('#pQty');
+    const sSize = $('#sSize');
+    const sQty  = $('#sQty');
+    const lineItems = $('#lineItems');
+    const summaryBox = $('#summary');
+    const totalsBox  = $('#totals');
+
+    // populate size selects
+    function fillSizeOptions(select){
+      select.innerHTML = SIZES.map(s=>`<option value="${s}">${s}</option>`).join('');
+    }
+    fillSizeOptions(pSize); fillSizeOptions(sSize);
+
+    // build gallery
+    function renderGallery(){
+      gallery.innerHTML = COLOURS.map((c,idx)=>{
+        return `<button class="swatch" data-idx="${idx}" title="${c.name}">
+                  <img alt="${c.name}" src="${c.img}" onerror="this.style.opacity=.15;this.alt='No image'"/>
+                  <span class="name">${c.name}</span>
+                </button>`
+      }).join('');
+      gallery.querySelectorAll('.swatch').forEach(btn=>{
+        btn.addEventListener('click',()=>{
+          const idx = +btn.dataset.idx;
+          selectColour(COLOURS[idx]);
+          gallery.querySelectorAll('.swatch').forEach(b=>b.classList.remove('active'));
+          btn.classList.add('active');
+        });
+      });
+    }
+
+    function selectColour(c){
+      selectedColour = c;
+      currentColourBadge.textContent = c ? c.name : 'No colour selected';
+      previewImg.src = c?.img || '';
+    }
+
+    // Tabs logic
+    document.querySelectorAll('.tab').forEach(t=>{
+      t.addEventListener('click',()=>{
+        document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+        t.classList.add('active');
+        const target = t.dataset.tab;
+        document.querySelectorAll('[data-tabpanel]').forEach(p=>{
+          p.style.display = (p.dataset.tabpanel===target)?'block':'none';
+        });
+      });
+    });
+
+    // add handlers
+    $('#personForm').addEventListener('submit', e=>{
+      e.preventDefault();
+      if(!selectedColour){alert('Please select a colour first.');return}
+      const name = (pName.value||'').trim();
+      const size = pSize.value; const qty = Math.max(1, +pQty.value||1);
+      if(!name){alert('Enter person name'); return}
+      addLine({type:'person', name, size, qty});
+      pName.value=''; pQty.value=1; pName.focus();
+    });
+
+    $('#sizeForm').addEventListener('submit', e=>{
+      e.preventDefault();
+      if(!selectedColour){alert('Please select a colour first.');return}
+      const size = sSize.value; const qty = Math.max(1, +sQty.value||1);
+      addLine({type:'size', size, qty});
+      sQty.value=1;
+    });
+
+    function addLine(partial){
+      const id = crypto.randomUUID();
+      lines.push({id, colour:selectedColour.name, ...partial});
+      renderLines();
+    }
+
+    function removeLine(id){
+      lines = lines.filter(l=>l.id!==id);
+      renderLines();
+    }
+
+    function renderLines(){
+      lineItems.innerHTML = lines.length? lines.map(l=>{
+        const tag = l.type==='person' ? `<span class="pill">${l.name}</span>` : `<span class="pill">Bulk</span>`;
+        return `<div class="item">
+                  <div>
+                    <strong>${l.colour}</strong>
+                    ${tag}
+                    <span class="badge">${l.size}</span>
+                    <span class="badge">${l.qty} pc</span>
+                  </div>
+                  <button class="btn btn-danger" data-del="${l.id}">Remove</button>
+                </div>`
+      }).join('') : '<p class="muted">No items added yet.</p>';
+
+      lineItems.querySelectorAll('[data-del]').forEach(b=>{
+        b.addEventListener('click',()=>removeLine(b.dataset.del));
+      });
+
+      // update summary & totals
+      const {text, totals} = buildSummaryText();
+      summaryBox.textContent = text;
+      totalsBox.innerHTML = totals.map(t=>`<span class="chip">${t.label}: <strong>${t.value}</strong></span>`).join('');
+    }
+
+    function groupBy(arr, key){
+      return arr.reduce((acc,cur)=>{
+        const k = key(cur);
+        (acc[k] ||= []).push(cur); return acc;
+      },{});
+    }
+
+    function buildSummaryText(){
+      if(lines.length===0) return {text:'Add items to see summary.', totals:[]};
+      const byColour = groupBy(lines, l=>l.colour);
+      let out = [];
+      let grand = 0;
+      Object.entries(byColour).forEach(([colour, items])=>{
+        out.push(`${colour}:`);
+        // person lines
+        items.filter(i=>i.type==='person').forEach(p=>{
+          out.push(`- ${p.name} – ${p.size} (${p.qty} pc)`);
+          grand += p.qty;
+        });
+        // size bulk grouped
+        const bulk = groupBy(items.filter(i=>i.type==='size'), i=>i.size);
+        Object.entries(bulk).forEach(([size, arr])=>{
+          const q = arr.reduce((n,x)=>n+x.qty,0);
+          out.push(`- ${size} – ${q} pc`);
+          grand += q;
+        });
+      });
+      out.push(`\nTotal: ${grand} pcs`);
+      return {text: out.join('\n'), totals:[{label:'Total Pcs', value:grand},{label:'Colours', value:Object.keys(byColour).length},{label:'Lines', value:lines.length}]};
+    }
+
+    function buildWhatsAppText(){
+      const header = `*Chinese Collar T-shirt – Order*`;
+      const {text} = buildSummaryText();
+      return `${header}\n\n${text}`.trim();
+    }
+
+    // Actions
+    $('#copyBtn').addEventListener('click', async()=>{
+      const txt = buildWhatsAppText();
+      try{ await navigator.clipboard.writeText(txt); alert('Order text copied!'); }
+      catch{ alert('Copy failed. Long-press to select & copy.'); }
+    });
+
+    $('#waBtn').addEventListener('click', ()=>{
+      if(lines.length===0){alert('Please add at least one item.');return}
+      const msg = encodeURIComponent(buildWhatsAppText());
+      const url = WHATSAPP_NUMBER
+        ? `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`
+        : `https://wa.me/?text=${msg}`;
+      window.open(url, '_blank');
+    });
+
+    $('#clearBtn').addEventListener('click', ()=>{
+      if(confirm('Clear all items?')){ lines=[]; renderLines(); }
+    });
+
+    // init
+    renderGallery();
+    // preselect first colour if available
+    if(COLOURS.length){ selectColour(COLOURS[0]); gallery.querySelector('.swatch')?.classList.add('active'); }
+    renderLines();
+  </script>
+</body>
+</html>
