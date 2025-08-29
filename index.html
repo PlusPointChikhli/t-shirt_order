@@ -128,7 +128,7 @@
           <div class="form-grid">
             <div>
               <label for="pName">Person Name</label>
-              <input id="pName" type="text" placeholder="e.g. Vipin" autocomplete="name" />
+              <input id="pName" type="text" placeholder="e.g. Vikram Patel " autocomplete="name" />
             </div>
             <div>
               <label for="pSize">Size</label>
@@ -282,7 +282,7 @@
       e.preventDefault();
       if(!selectedColour){alert('Please select a colour first.');return}
       const size = sSize.value; const qty = Math.max(1, +sQty.value||1);
-      if(!customerName.value || !customerPhone.value){alert('Please enter your name and mobile number first.');return}
+      if(!customerName.value || !customerPhone.value || customerPhone.value.length!=10){alert('Please enter your name and mobile number first.');return}
       addLine({type:'size', size, qty});
       sQty.value=1;
     });
@@ -353,9 +353,10 @@
     function buildWhatsAppText(){
       const customerInfo = `*ग्राहक का नाम:* ${customerName.value}\n*मोबाइल नंबर:* ${customerPhone.value}\n\n`;
       const header = `*Chinese Collar T-shirt – Order*`;
-      const shopInfo = `\n\n*${SHOP_NAME}*\nContact: ${SHOP_CONTACT}\nAddress: ${SHOP_ADDRESS}`;
+    /*  const shopInfo = `\n\n*${SHOP_NAME}*\nContact: ${SHOP_CONTACT}\nAddress: ${SHOP_ADDRESS}`;
       const {text} = buildSummaryText();
       return `${customerInfo}${header}\n${shopInfo}\n\n${text}`.trim();
+    */
     }
 
     $('#copyBtn').addEventListener('click', async()=>{
