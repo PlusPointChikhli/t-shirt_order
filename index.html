@@ -4,59 +4,59 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>PlusPoint-Chinese Collar T‑Shirt – Order Form</title>
+  <title>Chinese Collar T‑Shirt – Order Form</title>
   <style>
     :root{
-      --bg: #e9ecef;
-      --card: #f8f9fa;
-      --muted:#555;
+      --bg: #121212;
+      --card: #1e1e1e;
+      --muted:#b0b0b0;
       --brand:#007bff;
       --brand-2:#6c757d;
       --danger:#dc3545;
       --ring: 0 0 0 3px rgba(0, 123, 255, .25);
-      --border:#e0e0e0;
-      --shadow: 0 6px 16px rgba(0,0,0,.08);
+      --border:#444;
+      --shadow: 0 6px 16px rgba(0,0,0,.2);
     }
     *{box-sizing:border-box}
     body{
       margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif;
-      background:var(--bg); color:#333;
+      background:var(--bg); color:#fff;
     }
     .container{max-width:1100px;margin:0 auto;padding:16px}
     .main-header{text-align:center;margin:16px 0 24px}
-    .main-header img{height:70px;margin-bottom:8px}
-    .main-header h1{font-size:clamp(24px,3.2vw,36px);margin:0;color:#212529}
-    .shop-info-main{font-size:clamp(16px, 2.5vw, 22px); color:#212529; font-weight:600; margin-top:4px}
+    .main-header img{height:90px;margin-bottom:8px}
+    .main-header h1{font-size:clamp(24px,3.2vw,36px);margin:0;color:#fff}
+    .shop-info-main{font-size:clamp(16px, 2.5vw, 22px); color:#fff; font-weight:600; margin-top:4px}
     .shop-info-sub{font-size:14px;color:var(--muted)}
     
     .grid{display:grid;grid-template-columns:1fr;gap:20px}
     @media(min-width:720px){.grid{grid-template-columns:2fr 1.4fr}}
     .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;box-shadow:var(--shadow)}
     .section-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-    .section-title h2{font-size:20px;margin:0;color:#212529}
+    .section-title h2{font-size:20px;margin:0;color:#fff}
     .muted{opacity:.8}
 
     /* Colour gallery */
     .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
     @media(min-width:600px){.gallery{grid-template-columns:repeat(4,1fr)}}
-    .swatch{position:relative;border:1px solid var(--border);border-radius:8px;overflow:hidden;cursor:pointer;background:#fff;transition:transform .2s, box-shadow .2s}
+    .swatch{position:relative;border:1px solid var(--border);border-radius:8px;overflow:hidden;cursor:pointer;background:#242424;transition:transform .2s, box-shadow .2s}
     .swatch:hover{transform:translateY(-2px);box-shadow:0 6px 15px rgba(0,0,0,.1);}
     .swatch img{width:100%;height:100px;object-fit:cover;display:block}
-    .swatch .name{position:absolute;left:0;right:0;bottom:0;background:rgba(255,255,255,.8);backdrop-filter:blur(2px);padding:6px 8px;font-size:13px;text-align:center;font-weight:500;color:#333;border-top:1px solid rgba(0,0,0,.1);}
+    .swatch .name{position:absolute;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);backdrop-filter:blur(2px);padding:6px 8px;font-size:13px;text-align:center;font-weight:500;color:#fff;border-top:1px solid rgba(255,255,255,.1);}
     .swatch.active{outline:2px solid var(--brand);box-shadow:var(--ring);}
     .swatch-info{font-size:11px; font-weight:700; color:white; background:#007bff; padding:3px 6px; border-radius:4px; position:absolute; top:6px; left:6px;}
 
     /* Preview + forms */
-    .preview-img{width:100%;border-radius:8px;border:1px solid var(--border);overflow:hidden;background:#fff}
+    .preview-img{width:100%;border-radius:8px;border:1px solid var(--border);overflow:hidden;background:#242424}
     .preview-img img{width:100%;height:220px;object-fit:cover;display:block}
 
     .tabs{display:flex;gap:8px;margin:12px 0}
-    .tab{flex:1;text-align:center;padding:10px;border-radius:8px;border:1px solid var(--border);background:#fff;cursor:pointer;font-weight:500;color:var(--muted);transition:background .2s, border-color .2s}
+    .tab{flex:1;text-align:center;padding:10px;border-radius:8px;border:1px solid var(--border);background:#242424;cursor:pointer;font-weight:500;color:var(--muted);transition:background .2s, border-color .2s}
     .tab.active{background:var(--brand);color:#fff;border-color:var(--brand);box-shadow:var(--ring)}
 
-    label{display:block;font-size:14px;margin-top:12px;margin-bottom:6px;color:#212529}
+    label{display:block;font-size:14px;margin-top:12px;margin-bottom:6px;color:#fff}
     input[type="text"], select, input[type="number"]{
-      width:100%;padding:10px;border-radius:8px;border:1px solid var(--border);background:#fff;color:#333;font-size:16px;
+      width:100%;padding:10px;border-radius:8px;border:1px solid var(--border);background:#242424;color:#fff;font-size:16px;
     }
     .form-grid{display:grid;grid-template-columns:1fr;gap:15px}
     @media(min-width:480px){.form-grid{grid-template-columns:1fr 1fr}}
@@ -68,7 +68,7 @@
 
     .list{margin-top:16px;border-top:1px dashed var(--border);padding-top:12px}
     .item{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px dashed var(--border);font-size:15px}
-    .badge{font-size:13px;padding:4px 10px;border-radius:999px;background:#e9ecef;color:#495057;margin-left:8px;font-weight:500}
+    .badge{font-size:13px;padding:4px 10px;border-radius:999px;background:#333;color:#fff;margin-left:8px;font-weight:500}
     .pill{background:#007bff;color:#fff;padding:4px 10px;border-radius:999px;margin-left:8px;font-weight:500}
 
     .summary{font-size:15px;line-height:1.6;white-space:pre-wrap;font-family:monospace}
@@ -77,8 +77,8 @@
 
     .hint{font-size:13px;opacity:.8}
     .totals{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
-    .totals .chip{border:1px solid var(--border);border-radius:999px;padding:8px 12px;background:#fff;font-weight:500;font-size:14px;color:#333}
-    .totals strong{color:#000}
+    .totals .chip{border:1px solid var(--border);border-radius:999px;padding:8px 12px;background:#242424;font-weight:500;font-size:14px;color:#fff}
+    .totals strong{color:#fff}
     .text-center{text-align:center}
   </style>
 </head>
@@ -88,6 +88,7 @@
       <img src="logo.png" alt="PLUSPOINT EXCLUSIVE Logo" onerror="this.style.display='none'">
       <h1>PLUS POINT</h1>
       <div class="shop-info-sub">EXCLUSIVE Men'swear</div>
+      <div class="shop-info-sub">Garden Road, Chikhli, Navsari, Gujarat</div>
     </header>
     
     <div class="grid">
@@ -107,16 +108,23 @@
         <div class="preview-img" aria-live="polite">
           <img id="previewImg" alt="Preview" src="" />
         </div>
+        
+        <div class="card" style="margin-top:20px; background:var(--bg);">
+          <div class="section-title">
+            <h2>Customer Details</h2>
+          </div>
+          <label for="customerName">Your Name</label>
+          <input id="customerName" type="text" placeholder="e.g. Rahul Patel" autocomplete="name" required />
+          <label for="customerPhone">Your Mobile Number</label>
+          <input id="customerPhone" type="tel" placeholder="e.g. 9876543210" autocomplete="tel" required />
+        </div>
+
         <div class="tabs">
           <button class="tab active" data-tab="person">Person‑wise</button>
           <button class="tab" data-tab="size">Size + Qty</button>
         </div>
 
         <form id="personForm" data-tabpanel="person">
-          <label for="customerName">Your Name</label>
-          <input id="customerName" type="text" placeholder="e.g. Rahul Patel" autocomplete="name" required />
-          <label for="customerPhone">Your Mobile Number</label>
-          <input id="customerPhone" type="tel" placeholder="e.g. 9876543210" autocomplete="tel" required />
           <div class="form-grid">
             <div>
               <label for="pName">Person Name</label>
@@ -133,10 +141,6 @@
         </form>
 
         <form id="sizeForm" class="hidden" data-tabpanel="size" style="display:none">
-          <label for="customerName2">Your Name</label>
-          <input id="customerName2" type="text" placeholder="e.g. Rahul" autocomplete="name" required />
-          <label for="customerPhone2">Your Mobile Number</label>
-          <input id="customerPhone2" type="tel" placeholder="e.g. 9876543210" autocomplete="tel" required />
           <div class="form-grid">
             <div>
               <label for="sSize">Size</label>
@@ -218,12 +222,6 @@
     const summaryBox = $('#summary');
     const totalsBox  = $('#totals');
     
-    // Fill user info fields
-    $('#customerName2').value = customerName.value;
-    $('#customerPhone2').value = customerPhone.value;
-    customerName.addEventListener('input', e => $('#customerName2').value = e.target.value);
-    customerPhone.addEventListener('input', e => $('#customerPhone2').value = e.target.value);
-
     function fillSizeOptions(select, sizes){
       select.innerHTML = sizes.map(s=>`<option value="${s}">${s}</option>`).join('');
     }
@@ -275,6 +273,7 @@
       if(!selectedColour){alert('Please select a colour first.');return}
       const name = (pName.value||'').trim();
       const size = pSize.value; const qty = 1; 
+      if(!customerName.value || !customerPhone.value){alert('Please enter your name and mobile number first.');return}
       if(!name){alert('Enter person name'); return}
       addLine({type:'person', name, size, qty});
       pName.value=''; pName.focus();
@@ -284,6 +283,7 @@
       e.preventDefault();
       if(!selectedColour){alert('Please select a colour first.');return}
       const size = sSize.value; const qty = Math.max(1, +sQty.value||1);
+      if(!customerName.value || !customerPhone.value){alert('Please enter your name and mobile number first.');return}
       addLine({type:'size', size, qty});
       sQty.value=1;
     });
@@ -317,7 +317,6 @@
         b.addEventListener('click',()=>removeLine(b.dataset.del));
       });
 
-      // update summary & totals
       const {text, totals} = buildSummaryText();
       summaryBox.textContent = text;
       totalsBox.innerHTML = totals.map(t=>`<span class="chip">${t.label}: <strong>${t.value}</strong></span>`).join('');
@@ -337,12 +336,10 @@
       let grand = 0;
       Object.entries(byColour).forEach(([colour, items])=>{
         out.push(`${colour}:`);
-        // person lines
         items.filter(i=>i.type==='person').forEach(p=>{
           out.push(`- ${p.name} – ${p.size} (${p.qty} pc)`);
           grand += p.qty;
         });
-        // size bulk grouped
         const bulk = groupBy(items.filter(i=>i.type==='size'), i=>i.size);
         Object.entries(bulk).forEach(([size, arr])=>{
           const q = arr.reduce((n,x)=>n+x.qty,0);
@@ -362,7 +359,6 @@
       return `${customerInfo}${header}\n${shopInfo}\n\n${text}`.trim();
     }
 
-    // Actions
     $('#copyBtn').addEventListener('click', async()=>{
       const txt = buildWhatsAppText();
       try{ await navigator.clipboard.writeText(txt); alert('Order text copied!'); }
@@ -382,7 +378,6 @@
       if(confirm('Clear all items?')){ lines=[]; renderLines(); }
     });
 
-    // init
     renderGallery();
     if(COLOURS.length){ selectColour(COLOURS[0]); gallery.querySelector('.swatch')?.classList.add('active'); }
     renderLines();
