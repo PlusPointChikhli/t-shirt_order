@@ -28,7 +28,7 @@
     .main-header h1{font-size:clamp(24px,3.2vw,36px);margin:0;color:#fff}
     .shop-info-main{font-size:clamp(16px, 2.5vw, 22px); color:#fff; font-weight:600; margin-top:4px}
     .shop-info-sub{font-size:14px;color:var(--muted)}
-    
+
     .grid{display:grid;grid-template-columns:1fr;gap:20px}
     @media(min-width:720px){.grid{grid-template-columns:2fr 1.4fr}}
     .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;box-shadow:var(--shadow)}
@@ -60,7 +60,7 @@
     }
     .form-grid{display:grid;grid-template-columns:1fr;gap:15px}
     @media(min-width:480px){.form-grid{grid-template-columns:1fr 1fr}}
-    
+
     .btn{appearance:none;border:0;padding:12px 18px;border-radius:8px;cursor:pointer;font-weight:600;font-size:16px;transition:background .2s, color .2s}
     .btn-primary{background:var(--brand);color:#fff}
     .btn-outline{background:transparent;color:var(--brand);border:1px solid var(--brand)}
@@ -90,7 +90,7 @@
       <div class="shop-info-sub">EXCLUSIVE Men'swear</div>
       <div class="shop-info-sub">Garden Road, Chikhli, Navsari, Gujarat</div>
     </header>
-    
+
     <div class="grid">
       <section class="card">
         <div class="section-title">
@@ -108,7 +108,7 @@
         <div class="preview-img" aria-live="polite">
           <img id="previewImg" alt="Preview" src="" />
         </div>
-        
+
         <div class="card" style="margin-top:20px; background:var(--bg);">
           <div class="section-title">
             <h2>Customer Details</h2>
@@ -192,7 +192,7 @@
       {name:"Dark Red",      img:"images/Dark Red.jpg",      availableSizes:ADULT_SIZES},
       {name:"Dusty Purple",  img:"images/Dusty Purple.jpg",  availableSizes:[...ADULT_SIZES, ...KIDS_SIZES]},
       {name:"Lavender",      img:"images/LAVENDER.jpg",      availableSizes:ADULT_SIZES},
-      {name:"Light Green",   img:"images/LIGHT GREEN.jpg",   availableSizes:ADULT_SIZES},
+      {name:"Light Green",   img:"images/LIGHT GREEN.jpg",      availableSizes:[...ADULT_SIZES, ...KIDS_SIZES]},
       {name:"Light Grey",    img:"images/Light Grey.jpg",    availableSizes:[...ADULT_SIZES, ...KIDS_SIZES]},
       {name:"Navy",          img:"images/Navy.jpg",          availableSizes:ADULT_SIZES},
       {name:"Peach",         img:"images/Peach.jpg",         availableSizes:ADULT_SIZES},
@@ -200,8 +200,7 @@
       {name:"Sky Blue",      img:"images/Sky Blue.jpg",      availableSizes:[...ADULT_SIZES, ...KIDS_SIZES]},
       {name:"Space Blue",    img:"images/Space Blue.jpg",    availableSizes:ADULT_SIZES},
       {name:"White",         img:"images/White.jpg",         availableSizes:[...ADULT_SIZES, ...KIDS_SIZES]},
-      {name:"Lemon Yellow",  img:"images/Yellow.jpg",        availableSizes:ADULT_SIZES},
-      {name:"Pista Green",   img:"images/Pista Green.jpg",   availableSizes:[...ADULT_SIZES, ...KIDS_SIZES]}
+      {name:"Lemon Yellow",  img:"images/Yellow.jpg",        availableSizes:ADULT_SIZES}
     ];
 
     /* ================ STATE ================ */
@@ -221,7 +220,7 @@
     const lineItems = $('#lineItems');
     const summaryBox = $('#summary');
     const totalsBox  = $('#totals');
-    
+
     function fillSizeOptions(select, sizes){
       select.innerHTML = sizes.map(s=>`<option value="${s}">${s}</option>`).join('');
     }
@@ -350,7 +349,7 @@
       out.push(`\nTotal: ${grand} pcs`);
       return {text: out.join('\n'), totals:[{label:'Total Pcs', value:grand},{label:'Colours', value:Object.keys(byColour).length},{label:'Lines', value:lines.length}]};
     }
-    
+
     function buildWhatsAppText(){
       const customerInfo = `*ग्राहक का नाम:* ${customerName.value}\n*मोबाइल नंबर:* ${customerPhone.value}\n\n`;
       const header = `*Chinese Collar T-shirt – Order*`;
