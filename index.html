@@ -4,18 +4,18 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Chinese Collar T‑Shirt – Order Form</title>
+  <title>PlusPoint-Chinese Collar T‑Shirt – Order Form</title>
   <style>
     :root{
-      --bg:#fff;
-      --card:#f0f2f5;
+      --bg: #e9ecef;
+      --card: #f8f9fa;
       --muted:#555;
       --brand:#007bff;
       --brand-2:#6c757d;
       --danger:#dc3545;
       --ring: 0 0 0 3px rgba(0, 123, 255, .25);
       --border:#e0e0e0;
-      --shadow: 0 4px 12px rgba(0,0,0,.08);
+      --shadow: 0 6px 16px rgba(0,0,0,.08);
     }
     *{box-sizing:border-box}
     body{
@@ -24,7 +24,7 @@
     }
     .container{max-width:1100px;margin:0 auto;padding:16px}
     .main-header{text-align:center;margin:16px 0 24px}
-    .main-header img{height:50px;margin-bottom:8px}
+    .main-header img{height:70px;margin-bottom:8px}
     .main-header h1{font-size:clamp(24px,3.2vw,36px);margin:0;color:#212529}
     .shop-info-main{font-size:clamp(16px, 2.5vw, 22px); color:#212529; font-weight:600; margin-top:4px}
     .shop-info-sub{font-size:14px;color:var(--muted)}
@@ -44,6 +44,7 @@
     .swatch img{width:100%;height:100px;object-fit:cover;display:block}
     .swatch .name{position:absolute;left:0;right:0;bottom:0;background:rgba(255,255,255,.8);backdrop-filter:blur(2px);padding:6px 8px;font-size:13px;text-align:center;font-weight:500;color:#333;border-top:1px solid rgba(0,0,0,.1);}
     .swatch.active{outline:2px solid var(--brand);box-shadow:var(--ring);}
+    .swatch-info{font-size:11px; font-weight:700; color:white; background:#007bff; padding:3px 6px; border-radius:4px; position:absolute; top:6px; left:6px;}
 
     /* Preview + forms */
     .preview-img{width:100%;border-radius:8px;border:1px solid var(--border);overflow:hidden;background:#fff}
@@ -112,6 +113,10 @@
         </div>
 
         <form id="personForm" data-tabpanel="person">
+          <label for="customerName">Your Name</label>
+          <input id="customerName" type="text" placeholder="e.g. Rahul Patel" autocomplete="name" required />
+          <label for="customerPhone">Your Mobile Number</label>
+          <input id="customerPhone" type="tel" placeholder="e.g. 9876543210" autocomplete="tel" required />
           <div class="form-grid">
             <div>
               <label for="pName">Person Name</label>
@@ -128,6 +133,10 @@
         </form>
 
         <form id="sizeForm" class="hidden" data-tabpanel="size" style="display:none">
+          <label for="customerName2">Your Name</label>
+          <input id="customerName2" type="text" placeholder="e.g. Rahul" autocomplete="name" required />
+          <label for="customerPhone2">Your Mobile Number</label>
+          <input id="customerPhone2" type="tel" placeholder="e.g. 9876543210" autocomplete="tel" required />
           <div class="form-grid">
             <div>
               <label for="sSize">Size</label>
@@ -163,33 +172,32 @@
   </div>
   <script>
     /* ===================== CONFIG ===================== */
-    // 1) Your shop WhatsApp number (digits only). Example: "918866244409". Keep "" to open contact picker.
     const WHATSAPP_NUMBER = "919722609460";
     const SHOP_NAME = "PLUSPOINT EXCLUSIVE Men'swear";
     const SHOP_CONTACT = "8866244409";
     const SHOP_ADDRESS = "Garden Road, Chikhli, Navsari, Gujarat";
 
-    // 2) Available sizes
-    const SIZES = ["S", "M", "L", "XL", "XXL", "3XL"];
+    const KIDS_SIZES = ["24", "26", "28", "30", "32", "34"];
+    const ADULT_SIZES = ["S", "M", "L", "XL", "XXL", "3XL"];
 
-    // 3) Colour catalogue (name -> image path). Replace image paths with your own white‑background photos.
     const COLOURS = [
-      {name:"Airforce",      img:"images/Airforce.jpg"},
-      {name:"Black",         img:"images/Black.jpg"},
-      {name:"Brown",         img:"images/Brown.jpg"},
-      {name:"Dark Grey",     img:"images/Dark Grey.jpg"},
-      {name:"Dark Red",      img:"images/Dark Red.jpg"},
-      {name:"Dusty Purple",  img:"images/Dusty Purple.jpg"},
-      {name:"Lavender",      img:"images/LAVENDER.jpg"},
-      {name:"Light Green",   img:"images/LIGHT GREEN.jpg"},
-      {name:"Light Grey",    img:"images/Light Grey.jpg"},
-      {name:"Navy",          img:"images/Navy.jpg"},
-      {name:"Peach",         img:"images/Peach.jpg"},
-      {name:"Rust",          img:"images/Rust.jpg"},
-      {name:"Sky Blue",      img:"images/Sky Blue.jpg"},
-      {name:"Space Blue",    img:"images/Space Blue.jpg"},
-      {name:"White",         img:"images/White.jpg"},
-      {name:"Lemon Yellow",  img:"images/Yellow.jpg"}
+      {name:"Airforce",      img:"images/Airforce.jpg",      availableSizes:[...ADULT_SIZES, ...KIDS_SIZES]},
+      {name:"Black",         img:"images/Black.jpg",         availableSizes:[...ADULT_SIZES, ...KIDS_SIZES]},
+      {name:"Brown",         img:"images/Brown.jpg",         availableSizes:ADULT_SIZES},
+      {name:"Dark Grey",     img:"images/Dark Grey.jpg",     availableSizes:ADULT_SIZES},
+      {name:"Dark Red",      img:"images/Dark Red.jpg",      availableSizes:ADULT_SIZES},
+      {name:"Dusty Purple",  img:"images/Dusty Purple.jpg",  availableSizes:[...ADULT_SIZES, ...KIDS_SIZES]},
+      {name:"Lavender",      img:"images/LAVENDER.jpg",      availableSizes:ADULT_SIZES},
+      {name:"Light Green",   img:"images/LIGHT GREEN.jpg",   availableSizes:ADULT_SIZES},
+      {name:"Light Grey",    img:"images/Light Grey.jpg",    availableSizes:[...ADULT_SIZES, ...KIDS_SIZES]},
+      {name:"Navy",          img:"images/Navy.jpg",          availableSizes:ADULT_SIZES},
+      {name:"Peach",         img:"images/Peach.jpg",         availableSizes:ADULT_SIZES},
+      {name:"Rust",          img:"images/Rust.jpg",          availableSizes:ADULT_SIZES},
+      {name:"Sky Blue",      img:"images/Sky Blue.jpg",      availableSizes:[...ADULT_SIZES, ...KIDS_SIZES]},
+      {name:"Space Blue",    img:"images/Space Blue.jpg",    availableSizes:ADULT_SIZES},
+      {name:"White",         img:"images/White.jpg",         availableSizes:[...ADULT_SIZES, ...KIDS_SIZES]},
+      {name:"Lemon Yellow",  img:"images/Yellow.jpg",        availableSizes:ADULT_SIZES},
+      {name:"Pista Green",   img:"images/Pista Green.jpg",   availableSizes:[...ADULT_SIZES, ...KIDS_SIZES]}
     ];
 
     /* ================ STATE ================ */
@@ -200,6 +208,8 @@
     const gallery = $('#gallery');
     const previewImg = $('#previewImg');
     const currentColourBadge = $('#currentColour');
+    const customerName = $('#customerName');
+    const customerPhone = $('#customerPhone');
     const pName = $('#pName');
     const pSize = $('#pSize');
     const sSize = $('#sSize');
@@ -207,17 +217,24 @@
     const lineItems = $('#lineItems');
     const summaryBox = $('#summary');
     const totalsBox  = $('#totals');
+    
+    // Fill user info fields
+    $('#customerName2').value = customerName.value;
+    $('#customerPhone2').value = customerPhone.value;
+    customerName.addEventListener('input', e => $('#customerName2').value = e.target.value);
+    customerPhone.addEventListener('input', e => $('#customerPhone2').value = e.target.value);
 
-    // populate size selects
-    function fillSizeOptions(select){
-      select.innerHTML = SIZES.map(s=>`<option value="${s}">${s}</option>`).join('');
+    function fillSizeOptions(select, sizes){
+      select.innerHTML = sizes.map(s=>`<option value="${s}">${s}</option>`).join('');
     }
-    fillSizeOptions(pSize); fillSizeOptions(sSize);
 
     // build gallery
     function renderGallery(){
       gallery.innerHTML = COLOURS.map((c,idx)=>{
+        const isKids = c.availableSizes.some(s => KIDS_SIZES.includes(s));
+        const kidsTag = isKids ? `<span class="swatch-info">KIDS</span>` : '';
         return `<button class="swatch" data-idx="${idx}" title="${c.name}">
+                  ${kidsTag}
                   <img alt="${c.name}" src="${c.img}" onerror="this.style.opacity=.15;this.alt='No image'"/>
                   <span class="name">${c.name}</span>
                 </button>`
@@ -236,6 +253,8 @@
       selectedColour = c;
       currentColourBadge.textContent = c ? c.name : 'No colour selected';
       previewImg.src = c?.img || '';
+      fillSizeOptions(pSize, c.availableSizes);
+      fillSizeOptions(sSize, c.availableSizes);
     }
 
     // Tabs logic
@@ -255,7 +274,7 @@
       e.preventDefault();
       if(!selectedColour){alert('Please select a colour first.');return}
       const name = (pName.value||'').trim();
-      const size = pSize.value; const qty = 1; // Qty is always 1 for person-wise order
+      const size = pSize.value; const qty = 1; 
       if(!name){alert('Enter person name'); return}
       addLine({type:'person', name, size, qty});
       pName.value=''; pName.focus();
@@ -336,10 +355,11 @@
     }
     
     function buildWhatsAppText(){
+      const customerInfo = `*ग्राहक का नाम:* ${customerName.value}\n*मोबाइल नंबर:* ${customerPhone.value}\n\n`;
       const header = `*Chinese Collar T-shirt – Order*`;
       const shopInfo = `\n\n*${SHOP_NAME}*\nContact: ${SHOP_CONTACT}\nAddress: ${SHOP_ADDRESS}`;
       const {text} = buildSummaryText();
-      return `${header}\n${shopInfo}\n\n${text}`.trim();
+      return `${customerInfo}${header}\n${shopInfo}\n\n${text}`.trim();
     }
 
     // Actions
@@ -364,7 +384,6 @@
 
     // init
     renderGallery();
-    // preselect first colour if available
     if(COLOURS.length){ selectColour(COLOURS[0]); gallery.querySelector('.swatch')?.classList.add('active'); }
     renderLines();
   </script>
