@@ -1,10 +1,9 @@
 <!doctype html>
-
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Chinese Collar T‑Shirt – Order Form</title>
+  <title>PlusPoint-Chinese Collar T‑Shirt – Order Form</title>
   <style>
     :root{
       --bg: #121212;
@@ -48,7 +47,8 @@
 
     /* Preview + forms */
     .preview-img{width:100%;border-radius:8px;border:1px solid var(--border);overflow:hidden;background:#242424}
-    .preview-img img{width:100%;height:220px;object-fit:cover;display:block}
+    /* Photo size change here */
+    .preview-img img{width:100%;height:300px;object-fit:cover;display:block}
 
     .tabs{display:flex;gap:8px;margin:12px 0}
     .tab{flex:1;text-align:center;padding:10px;border-radius:8px;border:1px solid var(--border);background:#242424;cursor:pointer;font-weight:500;color:var(--muted);transition:background .2s, border-color .2s}
@@ -88,7 +88,6 @@
       <img src="logo.png" alt="PLUSPOINT EXCLUSIVE Logo" onerror="this.style.display='none'">
       <h1>PLUS POINT</h1>
       <div class="shop-info-sub">EXCLUSIVE Men'swear</div>
-      <div class="shop-info-sub">Garden Road, Chikhli, Navsari, Gujarat</div>
     </header>
 
     <div class="grid">
@@ -134,6 +133,10 @@
               <label for="pSize">Size</label>
               <select id="pSize"></select>
             </div>
+          </div>
+          <div>
+            <label for="pQty">Qty</label>
+            <input id="pQty" type="number" min="1" value="1" />
           </div>
           <div style="margin-top:16px;">
             <button type="submit" class="btn btn-primary" style="width:100%">Add Person</button>
@@ -215,6 +218,7 @@
     const customerPhone = $('#customerPhone');
     const pName = $('#pName');
     const pSize = $('#pSize');
+    const pQty = $('#pQty'); // Added for person-wise qty
     const sSize = $('#sSize');
     const sQty  = $('#sQty');
     const lineItems = $('#lineItems');
@@ -271,18 +275,20 @@
       e.preventDefault();
       if(!selectedColour){alert('Please select a colour first.');return}
       const name = (pName.value||'').trim();
-      const size = pSize.value; const qty = 1; 
+      const size = pSize.value; 
+      const qty = Math.max(1, +pQty.value || 1); // Get qty for person-wise
       if(!customerName.value || !customerPhone.value){alert('Please enter your name and mobile number first.');return}
       if(!name){alert('Enter person name'); return}
       addLine({type:'person', name, size, qty});
-      pName.value=''; pName.focus();
+      pName.value=''; pQty.value=1; pName.focus();
     });
 
     $('#sizeForm').addEventListener('submit', e=>{
       e.preventDefault();
       if(!selectedColour){alert('Please select a colour first.');return}
-      const size = sSize.value; const qty = Math.max(1, +sQty.value||1);
-      if(!customerName.value || !customerPhone.value || customerPhone.value.length!=10){alert('Please enter your name and mobile number first.');return}
+      const size = sSize.value; 
+      const qty = Math.max(1, +sQty.value || 1);
+      if(!customerName.value || !customerPhone.value){alert('Please enter your name and mobile number first.');return}
       addLine({type:'size', size, qty});
       sQty.value=1;
     });
@@ -332,31 +338,38 @@
       if(lines.length===0) return {text:'Add items to see summary.', totals:[]};
       const byColour = groupBy(lines, l=>l.colour);
       let out = [];
-      let grand = 0;
+      let grandTotal = 0;
+
       Object.entries(byColour).forEach(([colour, items])=>{
         out.push(`${colour}:`);
+        
+        // Group all items (person-wise and bulk) by size to get total count
+        const sizeTotals = groupBy(items, i => i.size);
+        let sizeSummary = [];
+        Object.entries(sizeTotals).forEach(([size, arr])=>{
+          const totalQty = arr.reduce((sum, item) => sum + item.qty, 0);
+          sizeSummary.push(`${size}-${totalQty}`);
+        });
+
+        out.push(`(${sizeSummary.sort().join(', ')})`);
+
+        // List person-wise items
         items.filter(i=>i.type==='person').forEach(p=>{
-          out.push(`- ${p.name} – ${p.size} (${p.qty} pc)`);
-          grand += p.qty;
+          out.push(`- ${p.name} - ${p.size} (${p.qty} pc)`);
         });
-        const bulk = groupBy(items.filter(i=>i.type==='size'), i=>i.size);
-        Object.entries(bulk).forEach(([size, arr])=>{
-          const q = arr.reduce((n,x)=>n+x.qty,0);
-          out.push(`- ${size} – ${q} pc`);
-          grand += q;
-        });
+        
+        grandTotal += items.reduce((sum, item) => sum + item.qty, 0);
       });
-      out.push(`\nTotal: ${grand} pcs`);
-      return {text: out.join('\n'), totals:[{label:'Total Pcs', value:grand},{label:'Colours', value:Object.keys(byColour).length},{label:'Lines', value:lines.length}]};
+      out.push(`\nTotal: ${grandTotal} pcs`);
+      return {text: out.join('\n'), totals:[{label:'Total Pcs', value:grandTotal},{label:'Colours', value:Object.keys(byColour).length},{label:'Lines', value:lines.length}]};
     }
 
     function buildWhatsAppText(){
       const customerInfo = `*ग्राहक का नाम:* ${customerName.value}\n*मोबाइल नंबर:* ${customerPhone.value}\n\n`;
       const header = `*Chinese Collar T-shirt – Order*`;
-    /*  const shopInfo = `\n\n*${SHOP_NAME}*\nContact: ${SHOP_CONTACT}\nAddress: ${SHOP_ADDRESS}`;
+      const shopInfo = `\n\n*${SHOP_NAME}*\nContact: ${SHOP_CONTACT}\nAddress: ${SHOP_ADDRESS}`;
       const {text} = buildSummaryText();
       return `${customerInfo}${header}\n${shopInfo}\n\n${text}`.trim();
-    */
     }
 
     $('#copyBtn').addEventListener('click', async()=>{
