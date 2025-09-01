@@ -6,15 +6,15 @@
   <title>PlusPoint-Chinese Collar T‑Shirt – Order Form</title>
   <style>
     :root{
-      --bg: #0d0d0d; /* Slightly darker background for better contrast */
+      --bg: #0d0d0d;
       --card: #1c1c1c;
       --muted:#b0b0b0;
       --brand:#007bff;
       --brand-2:#6c757d;
       --danger:#dc3545;
-      --ring: 0 0 0 4px rgba(0, 123, 255, .3); /* Thicker ring for active state */
+      --ring: 0 0 0 4px rgba(0, 123, 255, .3);
       --border:#444;
-      --shadow: 0 8px 24px rgba(0,0,0,.3); /* Stronger shadow for 3D effect */
+      --shadow: 0 8px 24px rgba(0,0,0,.3);
     }
     *{box-sizing:border-box}
     body{
@@ -25,18 +25,16 @@
     .main-header{text-align:center;margin:16px 0 24px}
     .main-header img{height:100px;margin-bottom:8px}
     .main-header h1{font-size:clamp(24px,3.2vw,36px);margin:0;color:#fff}
-    .shop-info-main{font-size:clamp(16px, 2.5vw, 22px); color:#fff; font-weight:600; margin-top:4px}
     .shop-info-sub{font-size:14px;color:var(--muted)}
 
     .grid{display:grid;grid-template-columns:1fr;gap:20px}
     @media(min-width:720px){.grid{grid-template-columns:2fr 1.4fr}}
     .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;box-shadow:var(--shadow);transition:transform 0.3s ease-in-out;}
-    .card:hover {transform: translateY(-5px);} /* Add hover effect to cards */
+    .card:hover {transform: translateY(-5px);}
     .section-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
     .section-title h2{font-size:20px;margin:0;color:#fff}
     .muted{opacity:.8}
 
-    /* Colour gallery */
     .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
     @media(min-width:600px){.gallery{grid-template-columns:repeat(4,1fr)}}
     .swatch{position:relative;border:1px solid var(--border);border-radius:8px;overflow:hidden;cursor:pointer;background:#242424;transition:transform .2s, box-shadow .2s}
@@ -46,9 +44,7 @@
     .swatch.active{outline:2px solid var(--brand);box-shadow:var(--ring);}
     .swatch-info{font-size:11px; font-weight:700; color:white; background:#007bff; padding:3px 6px; border-radius:4px; position:absolute; top:6px; left:6px;}
 
-    /* Preview + forms */
     .preview-img{width:100%;border-radius:8px;border:1px solid var(--border);overflow:hidden;background:#242424}
-    /* Photo size change here */
     .preview-img img{width:100%;height:300px;object-fit:cover;display:block}
 
     .tabs{display:flex;gap:8px;margin:12px 0}
@@ -76,12 +72,22 @@
     .summary{font-size:15px;line-height:1.6;white-space:pre-wrap;font-family:monospace}
     .footer-actions{display:flex;flex-direction:column;gap:12px;margin-top:20px}
     @media(min-width:560px){.footer-actions{flex-direction:row;justify-content:flex-end}}
-
+    .footer-actions-pdf{
+        display:flex; flex-direction:row; gap:12px;
+        margin-top:20px;
+    }
+    
     .hint{font-size:13px;opacity:.8}
     .totals{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
     .totals .chip{border:1px solid var(--border);border-radius:999px;padding:8px 12px;background:#242424;font-weight:500;font-size:14px;color:#fff}
     .totals strong{color:#fff}
     .text-center{text-align:center}
+    .summary-heading {
+      font-weight: bold;
+      text-decoration: underline;
+      margin-top: 10px;
+      margin-bottom: 5px;
+    }
   </style>
 </head>
 <body>
@@ -171,13 +177,17 @@
       </div>
       <div id="summary" class="summary"></div>
       <div class="totals" id="totals"></div>
-      <div class="footer-actions">
+      <div class="footer-actions-pdf">
         <button id="copyBtn" class="btn btn-outline">Copy Order Text</button>
         <button id="waBtn" class="btn btn-primary">Send on WhatsApp</button>
+      </div>
+      <div class="footer-actions">
+        <button id="downloadPdfBtn" class="btn btn-outline">Download Order PDF</button>
         <button id="clearBtn" class="btn btn-danger">Clear All</button>
       </div>
     </section>
   </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
     /* ===================== CONFIG ===================== */
     const WHATSAPP_NUMBER = "919722609460";
@@ -219,18 +229,18 @@
     const customerPhone = $('#customerPhone');
     const pName = $('#pName');
     const pSize = $('#pSize');
-    const pQty = $('#pQty'); // Added for person-wise qty
+    const pQty = $('#pQty');
     const sSize = $('#sSize');
     const sQty  = $('#sQty');
     const lineItems = $('#lineItems');
     const summaryBox = $('#summary');
     const totalsBox  = $('#totals');
-
+    const downloadPdfBtn = $('#downloadPdfBtn');
+    
     function fillSizeOptions(select, sizes){
       select.innerHTML = sizes.map(s=>`<option value="${s}">${s}</option>`).join('');
     }
 
-    // build gallery
     function renderGallery(){
       gallery.innerHTML = COLOURS.map((c,idx)=>{
         const isKids = c.availableSizes.some(s => KIDS_SIZES.includes(s));
@@ -259,7 +269,6 @@
       fillSizeOptions(sSize, c.availableSizes);
     }
 
-    // Tabs logic
     document.querySelectorAll('.tab').forEach(t=>{
       t.addEventListener('click',()=>{
         document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
@@ -271,13 +280,12 @@
       });
     });
 
-    // add handlers
     $('#personForm').addEventListener('submit', e=>{
       e.preventDefault();
       if(!selectedColour){alert('Please select a colour first.');return}
       const name = (pName.value||'').trim();
       const size = pSize.value; 
-      const qty = Math.max(1, +pQty.value || 1); // Get qty for person-wise
+      const qty = Math.max(1, +pQty.value || 1);
       if(!customerName.value || !customerPhone.value){alert('Please enter your name and mobile number first.');return}
       if(!name){alert('Enter person name'); return}
       addLine({type:'person', name, size, qty});
@@ -307,7 +315,7 @@
 
     function renderLines(){
       lineItems.innerHTML = lines.length? lines.map(l=>{
-        const tag = (l.type === 'person') ? `<span class="pill">${l.name}</span>` : '';
+        const tag = (l.type === 'person') ? `<span class="pill">${l.name}</span>` : `<span class="pill">Bulk</span>`;
         return `<div class="item">
                   <div>
                     <strong>${l.colour}</strong>
@@ -344,21 +352,24 @@
       Object.entries(byColour).forEach(([colour, items])=>{
         out.push(`${colour}:`);
         
-        // Group all items (person-wise and bulk) by size to get total count
-        const sizeTotals = groupBy(items, i => i.size);
-        let sizeSummary = [];
-        Object.entries(sizeTotals).forEach(([size, arr])=>{
-          const totalQty = arr.reduce((sum, item) => sum + item.qty, 0);
-          sizeSummary.push(`${size}-${totalQty}`);
-        });
-
-        out.push(`(${sizeSummary.sort().join(', ')})`);
-
-        // List person-wise items
-        items.filter(i=>i.type==='person').forEach(p=>{
-          out.push(`- ${p.name} - ${p.size} (${p.qty} pc)`);
-        });
+        // Group all items by size
+        const sizeGroups = groupBy(items, i => i.size);
         
+        Object.entries(sizeGroups).forEach(([size, sizeItems]) => {
+            const totalQty = sizeItems.reduce((sum, item) => sum + item.qty, 0);
+            out.push(`(${size}-${totalQty})`);
+            
+            // List person-wise items first
+            sizeItems.filter(i => i.type === 'person').forEach(p => {
+                out.push(`  - ${p.name} - ${p.size} (${p.qty} pc)`);
+            });
+
+            // List bulk items
+            sizeItems.filter(i => i.type === 'size').forEach(b => {
+                out.push(`  - Bulk - ${b.size} (${b.qty} pc)`);
+            });
+        });
+
         grandTotal += items.reduce((sum, item) => sum + item.qty, 0);
       });
       out.push(`\nTotal: ${grandTotal} pcs`);
@@ -371,6 +382,60 @@
       const shopInfo = `\n\n*PLUSPOINT EXCLUSIVE Men'swear*\nAddress: Garden Road, Chikhli, Navsari, Gujarat`;
       const {text} = buildSummaryText();
       return `${customerInfo}${header}\n\n${text}\n${shopInfo}`.trim();
+    }
+    
+    function buildPdfContent(doc) {
+        let y = 20;
+
+        doc.setFontSize(22);
+        doc.text("PLUSPOINT", 105, y, { align: "center" });
+        y += 10;
+        doc.setFontSize(10);
+        doc.text("Garden Road, Chikhli, Navsari, Gujarat", 105, y, { align: "center" });
+        y += 20;
+
+        doc.setFontSize(16);
+        doc.text("Order Summary", 10, y);
+        y += 10;
+        doc.setFontSize(12);
+
+        doc.text(`Customer Name: ${customerName.value}`, 10, y);
+        y += 7;
+        doc.text(`Mobile Number: ${customerPhone.value}`, 10, y);
+        y += 15;
+
+        if (lines.length > 0) {
+            const byColour = groupBy(lines, l => l.colour);
+            Object.entries(byColour).forEach(([colour, items]) => {
+                doc.setFontSize(14);
+                doc.text(`${colour}:`, 10, y);
+                y += 7;
+
+                const sizeGroups = groupBy(items, i => i.size);
+                Object.entries(sizeGroups).forEach(([size, sizeItems]) => {
+                    const totalQty = sizeItems.reduce((sum, item) => sum + item.qty, 0);
+                    doc.setFontSize(12);
+                    doc.text(`  (${size}-${totalQty})`, 10, y);
+                    y += 7;
+
+                    sizeItems.filter(i => i.type === 'person').forEach(p => {
+                        doc.text(`    - ${p.name} - ${p.size} (${p.qty} pc)`, 10, y);
+                        y += 7;
+                    });
+                    sizeItems.filter(i => i.type === 'size').forEach(b => {
+                        doc.text(`    - Bulk - ${b.size} (${b.qty} pc)`, 10, y);
+                        y += 7;
+                    });
+                });
+                y += 5;
+            });
+            
+            const grandTotal = lines.reduce((sum, item) => sum + item.qty, 0);
+            doc.setFontSize(14);
+            doc.text(`Total: ${grandTotal} pcs`, 10, y);
+        } else {
+            doc.text("No items added yet.", 10, y);
+        }
     }
 
     $('#copyBtn').addEventListener('click', async()=>{
@@ -390,6 +455,18 @@
 
     $('#clearBtn').addEventListener('click', ()=>{
       if(confirm('Clear all items?')){ lines=[]; renderLines(); }
+    });
+    
+    downloadPdfBtn.addEventListener('click', () => {
+        if(lines.length === 0){
+            alert('Please add at least one item to download PDF.');
+            return;
+        }
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        
+        buildPdfContent(doc);
+        doc.save("order-summary.pdf");
     });
 
     renderGallery();
