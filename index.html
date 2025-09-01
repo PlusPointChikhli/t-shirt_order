@@ -76,7 +76,7 @@
         display:flex; flex-direction:row; gap:12px;
         margin-top:20px;
     }
-    
+
     .hint{font-size:13px;opacity:.8}
     .totals{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
     .totals .chip{border:1px solid var(--border);border-radius:999px;padding:8px 12px;background:#242424;font-weight:500;font-size:14px;color:#fff}
@@ -236,7 +236,7 @@
     const summaryBox = $('#summary');
     const totalsBox  = $('#totals');
     const downloadPdfBtn = $('#downloadPdfBtn');
-    
+
     function fillSizeOptions(select, sizes){
       select.innerHTML = sizes.map(s=>`<option value="${s}">${s}</option>`).join('');
     }
@@ -351,14 +351,14 @@
 
       Object.entries(byColour).forEach(([colour, items])=>{
         out.push(`${colour}:`);
-        
+
         // Group all items by size
         const sizeGroups = groupBy(items, i => i.size);
-        
+
         Object.entries(sizeGroups).forEach(([size, sizeItems]) => {
             const totalQty = sizeItems.reduce((sum, item) => sum + item.qty, 0);
             out.push(`(${size}-${totalQty})`);
-            
+
             // List person-wise items first
             sizeItems.filter(i => i.type === 'person').forEach(p => {
                 out.push(`  - ${p.name} - ${p.size} (${p.qty} pc)`);
@@ -386,7 +386,11 @@
     
     function buildPdfContent(doc) {
         let y = 20;
-
+        const logoUrl = "logo.png"; // Your logo URL here
+        
+        // Add shop logo
+        doc.addImage(logoUrl, 'PNG', 10, y - 5, 40, 40);
+        
         doc.setFontSize(22);
         doc.text("PLUSPOINT", 105, y, { align: "center" });
         y += 10;
@@ -432,7 +436,7 @@
                 });
                 y += 5;
             });
-            
+
             const grandTotal = lines.reduce((sum, item) => sum + item.qty, 0);
             doc.setFontSize(14);
             doc.text(`Total: ${grandTotal} pcs`, 10, y);
@@ -459,7 +463,7 @@
     $('#clearBtn').addEventListener('click', ()=>{
       if(confirm('Clear all items?')){ lines=[]; renderLines(); }
     });
-    
+
     downloadPdfBtn.addEventListener('click', () => {
         if(lines.length === 0){
             alert('Please add at least one item to download PDF.');
@@ -467,7 +471,7 @@
         }
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
-        
+
         buildPdfContent(doc);
         doc.save("order-summary.pdf");
     });
