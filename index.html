@@ -4,8 +4,6 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>PlusPoint-Chinese Collar T‑Shirt – Order Form</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
     :root{
       --bg: #121212;
@@ -17,7 +15,6 @@
       --ring: 0 0 0 3px rgba(0, 123, 255, .25);
       --border:#444;
       --shadow: 0 6px 16px rgba(0,0,0,.2);
-      --card-shadow: 0 4px 12px rgba(0,0,0,.2);
     }
     *{box-sizing:border-box}
     body{
@@ -26,14 +23,14 @@
     }
     .container{max-width:1100px;margin:0 auto;padding:16px}
     .main-header{text-align:center;margin:16px 0 24px}
-    .main-header img{width:80%;height:100px;margin-bottom:8px}
+    .main-header img{height:100px;margin-bottom:8px}
     .main-header h1{font-size:clamp(24px,3.2vw,36px);margin:0;color:#fff}
     .shop-info-main{font-size:clamp(16px, 2.5vw, 22px); color:#fff; font-weight:600; margin-top:4px}
     .shop-info-sub{font-size:14px;color:var(--muted)}
 
     .grid{display:grid;grid-template-columns:1fr;gap:20px}
     @media(min-width:720px){.grid{grid-template-columns:2fr 1.4fr}}
-    .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;box-shadow:var(--card-shadow)}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;box-shadow:var(--shadow)}
     .section-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
     .section-title h2{font-size:20px;margin:0;color:#fff}
     .muted{opacity:.8}
@@ -41,95 +38,40 @@
     /* Colour gallery */
     .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
     @media(min-width:600px){.gallery{grid-template-columns:repeat(4,1fr)}}
-    .swatch{
-      position:relative;
-      border:1px solid var(--border);
-      border-radius:12px;
-      overflow:hidden;
-      cursor:pointer;
-      background:#242424;
-      transition:transform .2s, box-shadow .2s;
-      box-shadow:var(--card-shadow);
-    }
-    .swatch:hover{transform:translateY(-4px) scale(1.02);box-shadow:0 10px 20px rgba(0,0,0,.3);}
-    .swatch img{width:100%;height:150px;object-fit:cover;display:block;transition:opacity .2s;}
-    .swatch .name{
-      position:absolute;left:0;right:0;bottom:0;
-      background:rgba(0,0,0,.7);
-      backdrop-filter:blur(2px);
-      padding:8px;
-      font-size:14px;
-      text-align:center;
-      font-weight:500;
-      color:#fff;
-      border-top:1px solid rgba(255,255,255,.1);
-    }
-    .swatch.active{outline:3px solid var(--brand);box-shadow:var(--ring), 0 0 15px rgba(0,123,255,.5);}
-    .swatch-info{
-      font-size:12px;
-      font-weight:700;
-      color:white;
-      background:#007bff;
-      padding:4px 8px;
-      border-radius:999px;
-      position:absolute;top:10px;left:10px;
-      z-index:10;
-      box-shadow:0 2px 5px rgba(0,0,0,.2);
-    }
+    .swatch{position:relative;border:1px solid var(--border);border-radius:8px;overflow:hidden;cursor:pointer;background:#242424;transition:transform .2s, box-shadow .2s}
+    .swatch:hover{transform:translateY(-2px);box-shadow:0 6px 15px rgba(0,0,0,.1);}
+    .swatch img{width:100%;height:100px;object-fit:cover;display:block}
+    .swatch .name{position:absolute;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);backdrop-filter:blur(2px);padding:6px 8px;font-size:13px;text-align:center;font-weight:500;color:#fff;border-top:1px solid rgba(255,255,255,.1);}
+    .swatch.active{outline:2px solid var(--brand);box-shadow:var(--ring);}
+    .swatch-info{font-size:11px; font-weight:700; color:white; background:#007bff; padding:3px 6px; border-radius:4px; position:absolute; top:6px; left:6px;}
 
     /* Preview + forms */
-    .preview-img{width:100%;border-radius:12px;border:1px solid var(--border);overflow:hidden;background:#242424;box-shadow:var(--card-shadow)}
+    .preview-img{width:100%;border-radius:8px;border:1px solid var(--border);overflow:hidden;background:#242424}
+    /* Photo size change here */
     .preview-img img{width:100%;height:300px;object-fit:cover;display:block}
 
     .tabs{display:flex;gap:8px;margin:12px 0}
-    .tab{flex:1;text-align:center;padding:10px;border-radius:8px;border:1px solid var(--border);background:#242424;cursor:pointer;font-weight:500;color:var(--muted);transition:background .2s, border-color .2s, box-shadow .2s}
+    .tab{flex:1;text-align:center;padding:10px;border-radius:8px;border:1px solid var(--border);background:#242424;cursor:pointer;font-weight:500;color:var(--muted);transition:background .2s, border-color .2s}
     .tab.active{background:var(--brand);color:#fff;border-color:var(--brand);box-shadow:var(--ring)}
 
     label{display:block;font-size:14px;margin-top:12px;margin-bottom:6px;color:#fff}
     input[type="text"], select, input[type="number"]{
-      width:100%;padding:12px;border-radius:8px;border:1px solid var(--border);background:#242424;color:#fff;font-size:16px;
-      transition:border-color .2s, box-shadow .2s;
+      width:100%;padding:10px;border-radius:8px;border:1px solid var(--border);background:#242424;color:#fff;font-size:16px;
     }
-    input:focus, select:focus{outline:none;border-color:var(--brand);box-shadow:var(--ring)}
     .form-grid{display:grid;grid-template-columns:1fr;gap:15px}
     @media(min-width:480px){.form-grid{grid-template-columns:1fr 1fr}}
 
-    .btn{appearance:none;border:0;padding:12px 18px;border-radius:8px;cursor:pointer;font-weight:600;font-size:16px;transition:background .2s, color .2s, box-shadow .2s}
-    .btn-primary{background:var(--brand);color:#fff;box-shadow:0 4px 8px rgba(0, 123, 255, .3);}
-    .btn-primary:hover{box-shadow:0 6px 12px rgba(0, 123, 255, .4);}
-    .btn-outline{background:transparent;color:var(--brand);border:1px solid var(--brand);box-shadow:0 4px 8px rgba(0, 123, 255, .2);}
-    .btn-danger{background:var(--danger);color:#fff;box-shadow:0 4px 8px rgba(220, 53, 69, .3);}
-    .btn-danger:hover{box-shadow:0 6px 12px rgba(220, 53, 69, .4);}
+    .btn{appearance:none;border:0;padding:12px 18px;border-radius:8px;cursor:pointer;font-weight:600;font-size:16px;transition:background .2s, color .2s}
+    .btn-primary{background:var(--brand);color:#fff}
+    .btn-outline{background:transparent;color:var(--brand);border:1px solid var(--brand)}
+    .btn-danger{background:var(--danger);color:#fff}
 
     .list{margin-top:16px;border-top:1px dashed var(--border);padding-top:12px}
     .item{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px dashed var(--border);font-size:15px}
     .badge{font-size:13px;padding:4px 10px;border-radius:999px;background:#333;color:#fff;margin-left:8px;font-weight:500}
     .pill{background:#007bff;color:#fff;padding:4px 10px;border-radius:999px;margin-left:8px;font-weight:500}
 
-    .summary{
-      font-size:15px;
-      line-height:1.6;
-      white-space:pre-wrap;
-      font-family:monospace;
-      background:#242424;
-      padding:15px;
-      border-radius:8px;
-    }
-    .summary h3{
-      margin:0;
-      font-size:18px;
-      padding-bottom:5px;
-      border-bottom:1px solid rgba(255,255,255,.1);
-    }
-    .summary ul{
-      padding:0;
-      margin:10px 0;
-      list-style:none;
-    }
-    .summary ul li{
-      margin-bottom:4px;
-    }
-
+    .summary{font-size:15px;line-height:1.6;white-space:pre-wrap;font-family:monospace}
     .footer-actions{display:flex;flex-direction:column;gap:12px;margin-top:20px}
     @media(min-width:560px){.footer-actions{flex-direction:row;justify-content:flex-end}}
 
@@ -138,62 +80,13 @@
     .totals .chip{border:1px solid var(--border);border-radius:999px;padding:8px 12px;background:#242424;font-weight:500;font-size:14px;color:#fff}
     .totals strong{color:#fff}
     .text-center{text-align:center}
-
-    .hidden{display:none}
-
-    /* PDF Specific Styles (for better rendering) */
-    @media print {
-      body{ background:white; color:black; }
-      .container { max-width:100%; margin:0; padding:20px; }
-      .grid, .card, .tabs, .footer-actions, #lineItems, .hint, .totals { display:none !important; }
-      .main-header, .section-title, .summary{ display:block !important; }
-      .summary{ background:white; color:black; border:1px solid #ccc; font-family:sans-serif; }
-      .summary ul li { color:black; }
-      .main-header img { filter:none; }
-      .main-header h1 { color:black; }
-      .shop-info-sub { color:black; }
-    }
-    .pdf-container {
-      background:white;
-      color:black;
-      padding:20px;
-      width:210mm;
-      min-height:297mm;
-      box-sizing:border-box;
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif;
-    }
-    .pdf-header {
-      text-align:center;
-      border-bottom:1px solid #ccc;
-      padding-bottom:15px;
-      margin-bottom:20px;
-    }
-    .pdf-header img { height:80px; margin-bottom:10px; }
-    .pdf-header h1 { font-size:28px; margin:0; color:black; }
-    .pdf-header p { font-size:14px; color:#555; margin:0; }
-    .pdf-section h2 { font-size:20px; border-bottom:1px solid #ccc; padding-bottom:5px; margin-top:20px; color:black; }
-    .pdf-details p { font-size:16px; margin:5px 0; color:#333; }
-    .pdf-summary pre {
-      background:#f8f8f8;
-      border:1px solid #ddd;
-      padding:15px;
-      border-radius:8px;
-      white-space:pre-wrap;
-      font-family:monospace;
-      font-size:14px;
-      color:#222;
-    }
-    .pdf-summary h3 { font-size:16px; margin-top:10px; color:#222; }
-    .pdf-summary ul { list-style:none; padding:0; margin:0; }
-    .pdf-summary ul li { margin-bottom:5px; }
   </style>
 </head>
 <body>
-  <div class="container" id="orderForm">
+  <div class="container">
     <header class="main-header">
       <img src="logo.png" alt="PLUSPOINT EXCLUSIVE Logo" onerror="this.style.display='none'">
       <h1>PLUS POINT</h1>
-      <div class="shop-info-sub">EXCLUSIVE Men'swear</div>
     </header>
 
     <div class="grid">
@@ -277,13 +170,12 @@
       <div id="summary" class="summary"></div>
       <div class="totals" id="totals"></div>
       <div class="footer-actions">
-        <button id="downloadPdfBtn" class="btn btn-primary">Download Order Form</button>
+        <button id="copyBtn" class="btn btn-outline">Copy Order Text</button>
         <button id="waBtn" class="btn btn-primary">Send on WhatsApp</button>
         <button id="clearBtn" class="btn btn-danger">Clear All</button>
       </div>
     </section>
   </div>
-
   <script>
     /* ===================== CONFIG ===================== */
     const WHATSAPP_NUMBER = "919722609460";
@@ -302,7 +194,7 @@
       {name:"Dark Red",      img:"images/Dark Red.jpg",      availableSizes:ADULT_SIZES},
       {name:"Dusty Purple",  img:"images/Dusty Purple.jpg",  availableSizes:[...ADULT_SIZES, ...KIDS_SIZES]},
       {name:"Lavender",      img:"images/LAVENDER.jpg",      availableSizes:ADULT_SIZES},
-      {name:"Light Green",   img:"images/LIGHT GREEN.jpg",   availableSizes:[...ADULT_SIZES, ...KIDS_SIZES]},
+      {name:"Light Green",   img:"images/LIGHT GREEN.jpg",      availableSizes:[...ADULT_SIZES, ...KIDS_SIZES]},
       {name:"Light Grey",    img:"images/Light Grey.jpg",    availableSizes:[...ADULT_SIZES, ...KIDS_SIZES]},
       {name:"Navy",          img:"images/Navy.jpg",          availableSizes:ADULT_SIZES},
       {name:"Peach",         img:"images/Peach.jpg",         availableSizes:ADULT_SIZES},
@@ -325,14 +217,12 @@
     const customerPhone = $('#customerPhone');
     const pName = $('#pName');
     const pSize = $('#pSize');
-    const pQty = $('#pQty');
+    const pQty = $('#pQty'); // Added for person-wise qty
     const sSize = $('#sSize');
     const sQty  = $('#sQty');
     const lineItems = $('#lineItems');
     const summaryBox = $('#summary');
     const totalsBox  = $('#totals');
-    const downloadPdfBtn = $('#downloadPdfBtn');
-    const orderForm = $('#orderForm');
 
     function fillSizeOptions(select, sizes){
       select.innerHTML = sizes.map(s=>`<option value="${s}">${s}</option>`).join('');
@@ -385,7 +275,7 @@
       if(!selectedColour){alert('Please select a colour first.');return}
       const name = (pName.value||'').trim();
       const size = pSize.value; 
-      const qty = Math.max(1, +pQty.value || 1);
+      const qty = Math.max(1, +pQty.value || 1); // Get qty for person-wise
       if(!customerName.value || !customerPhone.value){alert('Please enter your name and mobile number first.');return}
       if(!name){alert('Enter person name'); return}
       addLine({type:'person', name, size, qty});
@@ -432,7 +322,7 @@
       });
 
       const {text, totals} = buildSummaryText();
-      summaryBox.innerHTML = text;
+      summaryBox.textContent = text;
       totalsBox.innerHTML = totals.map(t=>`<span class="chip">${t.label}: <strong>${t.value}</strong></span>`).join('');
     }
 
@@ -444,77 +334,51 @@
     }
 
     function buildSummaryText(){
-      if(lines.length===0) return {text:'<p class="muted">Add items to see summary.</p>', totals:[]};
-      
+      if(lines.length===0) return {text:'Add items to see summary.', totals:[]};
       const byColour = groupBy(lines, l=>l.colour);
-      let html = '';
+      let out = [];
       let grandTotal = 0;
 
-      Object.entries(byColour).sort().forEach(([colour, items])=>{
-        html += `<h3>${colour}:</h3>`;
-        html += `<ul>`;
+      Object.entries(byColour).forEach(([colour, items])=>{
+        out.push(`${colour}:`);
         
-        const bySize = groupBy(items, i => i.size);
-        
-        Object.entries(bySize).sort().forEach(([size, arr])=>{
+        // Group all items (person-wise and bulk) by size to get total count
+        const sizeTotals = groupBy(items, i => i.size);
+        let sizeSummary = [];
+        Object.entries(sizeTotals).forEach(([size, arr])=>{
           const totalQty = arr.reduce((sum, item) => sum + item.qty, 0);
-          grandTotal += totalQty;
-          
-          html += `<li><strong>${size}</strong>: ${totalQty} Pcs`;
-          html += `<ul>`;
-          
-          arr.forEach(item => {
-            if(item.type === 'person') {
-              html += `<li>- ${item.name} (${item.qty} pc)</li>`;
-            } else {
-              html += `<li>- Bulk (${item.qty} pc)</li>`;
-            }
-          });
-          html += `</ul></li>`;
+          sizeSummary.push(`${size}-${totalQty}`);
         });
-        html += `</ul>`;
+
+        out.push(`(${sizeSummary.sort().join(', ')})`);
+
+        // List person-wise items
+        items.filter(i=>i.type==='person').forEach(p=>{
+          out.push(`- ${p.name} - ${p.size} (${p.qty} pc)`);
+        });
+        
+        grandTotal += items.reduce((sum, item) => sum + item.qty, 0);
       });
-      
-      return {text: html, totals:[{label:'Total Pcs', value:grandTotal},{label:'Colours', value:Object.keys(byColour).length},{label:'Lines', value:lines.length}]};
+      out.push(`\nTotal: ${grandTotal} pcs`);
+      return {text: out.join('\n'), totals:[{label:'Total Pcs', value:grandTotal},{label:'Colours', value:Object.keys(byColour).length},{label:'Lines', value:lines.length}]};
     }
 
     function buildWhatsAppText(){
-      if(lines.length === 0) return '';
       const customerInfo = `*ग्राहक का नाम:* ${customerName.value}\n*मोबाइल नंबर:* ${customerPhone.value}\n\n`;
       const header = `*Chinese Collar T-shirt – Order*`;
       const shopInfo = `\n\n*${SHOP_NAME}*\nContact: ${SHOP_CONTACT}\nAddress: ${SHOP_ADDRESS}`;
-      
-      const byColour = groupBy(lines, l=>l.colour);
-      let orderText = [];
-      let grandTotal = 0;
-
-      Object.entries(byColour).sort().forEach(([colour, items])=>{
-        orderText.push(`*${colour}*:`);
-        const bySize = groupBy(items, i => i.size);
-        
-        Object.entries(bySize).sort().forEach(([size, arr])=>{
-          const totalQty = arr.reduce((sum, item) => sum + item.qty, 0);
-          grandTotal += totalQty;
-          orderText.push(` - *${size}*: ${totalQty} Pcs`);
-          
-          arr.forEach(item => {
-            if(item.type === 'person') {
-              orderText.push(`  - ${item.name} (${item.qty} pc)`);
-            } else {
-              orderText.push(`  - Bulk (${item.qty} pc)`);
-            }
-          });
-        });
-      });
-      
-      orderText.push(`\n*Total:* ${grandTotal} Pcs`);
-      
-      return `${customerInfo}${header}\n\n${orderText.join('\n')}\n${shopInfo}`.trim();
+      const {text} = buildSummaryText();
+      return `${customerInfo}${header}\n\n${text}\n${shopInfo}`.trim();
     }
+
+    $('#copyBtn').addEventListener('click', async()=>{
+      const txt = buildWhatsAppText();
+      try{ await navigator.clipboard.writeText(txt); alert('Order text copied!'); }
+      catch{ alert('Copy failed. Long-press to select & copy.'); }
+    });
 
     $('#waBtn').addEventListener('click', ()=>{
       if(lines.length===0){alert('Please add at least one item.');return}
-      if(!customerName.value || !customerPhone.value){alert('Please enter your name and mobile number.');return}
       const msg = encodeURIComponent(buildWhatsAppText());
       const url = WHATSAPP_NUMBER
         ? `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`
@@ -523,73 +387,7 @@
     });
 
     $('#clearBtn').addEventListener('click', ()=>{
-      if(confirm('Clear all items?')){ lines=[]; renderLines(); customerName.value=''; customerPhone.value=''; }
-    });
-
-    downloadPdfBtn.addEventListener('click', () => {
-      if (lines.length === 0) {
-        alert('Please add at least one item.');
-        return;
-      }
-      if (!customerName.value || !customerPhone.value) {
-        alert('Please enter your name and mobile number.');
-        return;
-      }
-
-      const pdfContent = `
-        <div class="pdf-container">
-          <div class="pdf-header">
-            <img src="logo.png" alt="PLUSPOINT EXCLUSIVE Logo">
-            <h1>PLUS POINT</h1>
-            <p>EXCLUSIVE Men'swear</p>
-            <p>Contact: ${SHOP_CONTACT} | Address: ${SHOP_ADDRESS}</p>
-          </div>
-          <div class="pdf-section">
-            <h2>Customer Details</h2>
-            <div class="pdf-details">
-              <p><strong>Name:</strong> ${customerName.value}</p>
-              <p><strong>Mobile:</strong> ${customerPhone.value}</p>
-            </div>
-          </div>
-          <div class="pdf-section">
-            <h2>Order Summary</h2>
-            <div class="pdf-summary">
-              ${$('#summary').innerHTML}
-            </div>
-          </div>
-          <div class="pdf-section" style="margin-top: 20px;">
-            <p style="text-align: right; font-size: 18px; margin: 0;"><strong>Total Pieces:</strong> ${lines.reduce((sum, item) => sum + item.qty, 0)}</p>
-          </div>
-        </div>
-      `;
-
-      const element = document.createElement('div');
-      element.innerHTML = pdfContent;
-      document.body.appendChild(element);
-
-      html2canvas(element, { scale: 2 }).then(canvas => {
-        const { jsPDF } = window.jspdf;
-        const imgData = canvas.toDataURL('image/png');
-        const doc = new jsPDF('p', 'mm', 'a4');
-        const imgWidth = 210;
-        const pageHeight = 297;
-        const imgHeight = canvas.height * imgWidth / canvas.width;
-        let heightLeft = imgHeight;
-        let position = 0;
-
-        doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-        heightLeft -= pageHeight;
-
-        while (heightLeft >= 0) {
-          position = heightLeft - imgHeight;
-          doc.addPage();
-          doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-          heightLeft -= pageHeight;
-        }
-
-        doc.save(`PlusPoint_Order_${customerName.value.replace(/\s/g, '_')}.pdf`);
-        document.body.removeChild(element);
-      });
+      if(confirm('Clear all items?')){ lines=[]; renderLines(); }
     });
 
     renderGallery();
